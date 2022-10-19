@@ -43,22 +43,24 @@ class MainPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: 50,
-                ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Text(
-                      'In ${mainViewModel.timeHorizon} years:',
-                    ),
-                    Text(
-                      mainViewModel.getFormattedCurrency(
-                          mainViewModel.getInvestmentReturn()),
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
+                if (mainViewModel.invest) ...[
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        'In ${mainViewModel.timeHorizon} years:',
+                      ),
+                      Text(
+                        mainViewModel.getFormattedCurrency(
+                            mainViewModel.getInvestmentReturn()),
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ],
+                  ),
+                ]
               ],
             ),
             TextButton(

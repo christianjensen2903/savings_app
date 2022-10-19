@@ -42,7 +42,7 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
                 SettingsTile.switchTile(
-                  title: Text('Invest'),
+                  title: const Text('Invest'),
                   leading: const Icon(Icons.pie_chart),
                   initialValue: mainViewModel.invest,
                   onToggle: (bool value) {
@@ -50,7 +50,7 @@ class SettingsPage extends StatelessWidget {
                   },
                 ),
                 SettingsTile(
-                  title: Text('Time Horizon'),
+                  title: const Text('Time Horizon'),
                   value: Text('${mainViewModel.timeHorizon} years'),
                   leading: const Icon(Icons.timer),
                   onPressed: (BuildContext context) {
