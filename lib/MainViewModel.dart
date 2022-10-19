@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:currency_picker/currency_picker.dart';
 import 'package:money_formatter/money_formatter.dart';
+import 'dart:math';
 
 class MainViewModel extends ChangeNotifier {
   int _savedAmount = 0;
@@ -43,6 +44,18 @@ class MainViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  void switchInvest() {
+    _invest = !_invest;
+    notifyListeners();
+  }
+
+  int getInvestmentReturn() {
+    double interestRate = _interestRate / 100;
+    double interest =
+        _savedAmount.toDouble() * pow(1 + interestRate, _timeHorizon);
+    return interest.toInt();
+  }
+
   String getFormattedCurrency(int value) {
     MoneyFormatter fmf = MoneyFormatter(
         amount: value.toDouble(),
@@ -54,8 +67,6 @@ class MainViewModel extends ChangeNotifier {
                 _currency.spaceBetweenAmountAndSymbol ? ' ' : '',
             fractionDigits: _currency.decimalDigits,
             compactFormatType: CompactFormatType.short));
-    return _currency.symbolOnLeft
-        ? fmf.output.symbolOnLeft
-        : fmf.output.symbolOnRight;
+    return fmf.output.compactNonSymbol;
   }
 }

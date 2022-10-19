@@ -26,14 +26,40 @@ class MainPage extends StatelessWidget {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have saved:',
-            ),
-            Text(
-              mainViewModel.getFormattedCurrency(mainViewModel.savedAmount),
-              style: Theme.of(context).textTheme.headlineMedium,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    const Text(
+                      'You have saved:',
+                    ),
+                    Text(
+                      mainViewModel
+                          .getFormattedCurrency(mainViewModel.savedAmount),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 50,
+                ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      'In ${mainViewModel.timeHorizon} years:',
+                    ),
+                    Text(
+                      mainViewModel.getFormattedCurrency(
+                          mainViewModel.getInvestmentReturn()),
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
+                ),
+              ],
             ),
             TextButton(
                 child: const Text('ADD'),
