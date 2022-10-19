@@ -15,17 +15,21 @@ class MainPage extends StatelessWidget {
     MainViewModel mainViewModel = context.watch<MainViewModel>();
 
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
+        elevation: 0,
+        backgroundColor: Colors.transparent,
         title: const Text("Savings App"),
         leading: GestureDetector(
             onTap: () {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingsPage()));
             },
-            child: const Icon(Icons.settings)),
+            child: const Icon(Icons.settings, color: Colors.pinkAccent)),
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -62,6 +66,9 @@ class MainPage extends StatelessWidget {
                   ),
                 ]
               ],
+            ),
+            const SizedBox(
+              height: 20,
             ),
             TextButton(
                 child: const Text('ADD'),

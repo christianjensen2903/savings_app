@@ -15,13 +15,19 @@ class SettingsPage extends StatelessWidget {
     MainViewModel mainViewModel = context.watch<MainViewModel>();
 
     return Scaffold(
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
           title: const Text('Settings'),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
-            child: const Icon(Icons.arrow_back),
+            child: const Icon(
+              Icons.arrow_back,
+              color: Colors.pinkAccent,
+            ),
           ),
         ),
         body: SettingsList(
