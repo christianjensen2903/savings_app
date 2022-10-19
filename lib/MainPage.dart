@@ -16,7 +16,7 @@ class MainPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Savings App"),
+        title: const Text("Savings App"),
         leading: GestureDetector(
             onTap: () {
               Navigator.push(context,
@@ -44,7 +44,7 @@ class MainPage extends StatelessWidget {
                   ],
                 ),
                 if (mainViewModel.invest) ...[
-                  SizedBox(
+                  const SizedBox(
                     width: 50,
                   ),
                   Column(

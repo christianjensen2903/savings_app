@@ -27,10 +27,10 @@ class SettingsPage extends StatelessWidget {
         body: SettingsList(
           sections: [
             SettingsSection(
-              title: Text('General'),
+              title: const Text('General'),
               tiles: [
                 SettingsTile(
-                  title: Text('Currency'),
+                  title: const Text('Currency'),
                   value: Text('${mainViewModel.currency_code}'),
                   leading: const Icon(Icons.attach_money),
                   onPressed: (BuildContext context) {
