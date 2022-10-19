@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:savings_app/MainViewModel.dart';
 
-import 'AddSavingsDialog.dart';
+import 'CustomDialog.dart';
+import 'SettingsPage.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -16,6 +17,12 @@ class MainPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text("Savings App"),
+        leading: GestureDetector(
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingsPage()));
+            },
+            child: const Icon(Icons.settings)),
       ),
       body: Center(
         child: Column(
@@ -25,7 +32,7 @@ class MainPage extends StatelessWidget {
               'You have saved:',
             ),
             Text(
-              '${mainViewModel.savedAmount}',
+              mainViewModel.getFormattedCurrency(mainViewModel.savedAmount),
               style: Theme.of(context).textTheme.headlineMedium,
             ),
             TextButton(
@@ -38,7 +45,7 @@ class MainPage extends StatelessWidget {
                   showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AddSavingsDialog(
+                      return CustomDialog(
                         controller: mainViewModel.controller,
                         onPressed: () {
                           int value = int.parse(mainViewModel.controller.text);
@@ -46,6 +53,11 @@ class MainPage extends StatelessWidget {
                           mainViewModel.controller.clear();
                           Navigator.pop(context);
                         },
+                        title: 'Add Savings',
+                        hintText: 'Enter amount',
+                        formatter: [
+                          FilteringTextInputFormatter.digitsOnly,
+                        ],
                       );
                     },
                   );

@@ -1,32 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class AddSavingsDialog extends StatefulWidget {
+class CustomDialog extends StatefulWidget {
   final TextEditingController controller;
   final onPressed;
+  final String title;
+  final String hintText;
+  final TextInputType keyboardType;
+  final List<TextInputFormatter>? formatter;
 
-  const AddSavingsDialog(
-      {Key? key, required this.controller, required this.onPressed})
+  const CustomDialog(
+      {Key? key,
+      required this.controller,
+      required this.onPressed,
+      required this.title,
+      this.hintText = '',
+      this.formatter,
+      this.keyboardType = TextInputType.number})
       : super(key: key);
 
   @override
-  State<AddSavingsDialog> createState() => _AddSavingsDialogState();
+  State<CustomDialog> createState() => _CustomDialogState();
 }
 
-class _AddSavingsDialogState extends State<AddSavingsDialog> {
+class _CustomDialogState extends State<CustomDialog> {
   String valueText = "";
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('How much did you save?'),
+      title: Text(widget.title),
       content: TextField(
         controller: widget.controller,
         keyboardType: TextInputType.number,
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.digitsOnly
-        ],
-        decoration: InputDecoration(hintText: "Enter Amount"),
+        inputFormatters: widget.formatter ?? [],
+        decoration: InputDecoration(hintText: widget.hintText),
       ),
       actions: <Widget>[
         TextButton(
@@ -42,7 +50,7 @@ class _AddSavingsDialogState extends State<AddSavingsDialog> {
           },
         ),
         TextButton(
-          child: const Text('ADD'),
+          child: const Text('OK'),
           style: TextButton.styleFrom(
             foregroundColor: Colors.white,
             backgroundColor: Colors.green,
