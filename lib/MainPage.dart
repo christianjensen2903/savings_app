@@ -17,6 +17,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   late AnimationController _animationController;
+  late AnimationController _moneyAnimationController;
   String _pigUrl =
       'https://assets8.lottiefiles.com/packages/lf20_yvwcdrrw.json';
 
@@ -31,6 +32,9 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     _animationController = AnimationController(
+      vsync: this,
+    );
+    _moneyAnimationController = AnimationController(
       vsync: this,
     );
     timer = Timer.periodic(
@@ -122,9 +126,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
             TextButton(
                 child: const Text('ADD'),
                 style: TextButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: Colors.green,
-                ),
+                    foregroundColor: Colors.white,
+                    backgroundColor: Color.fromRGBO(104, 181, 118, 1)),
                 onPressed: () {
                   showDialog(
                     context: context,
@@ -136,6 +139,8 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                           mainViewModel.addSavings(value);
                           mainViewModel.controller.clear();
                           Navigator.pop(context);
+
+                          _showOverlay(context);
 
                           _pigUrl =
                               'https://assets8.lottiefiles.com/packages/lf20_yvwcdrrw.json';
@@ -155,5 +160,39 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  void _showOverlay(BuildContext context) async {
+    OverlayState? overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry;
+    overlayEntry = OverlayEntry(builder: (context) {
+      return Center(
+          child: Lottie.network(
+              'https://assets2.lottiefiles.com/packages/lf20_wwhhicx3.json',
+              height: 500,
+              repeat: false,
+              controller: _moneyAnimationController, onLoaded: (composition) {
+        _moneyAnimationController
+          ..duration = composition.duration
+          ..forward();
+      }));
+    });
+    // animationController!.addListener(() {
+    //   overlayState!.setState(() {});
+    // });
+    // _moneyAnimationController.repeat();
+    overlayState.setState(() {});
+    if (_moneyAnimationController.duration != null) {
+      _moneyAnimationController.reset();
+      _moneyAnimationController.forward();
+    }
+
+    // inserting overlay entry
+    overlayState.insert(overlayEntry);
+    _moneyAnimationController.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        overlayEntry.remove();
+      }
+    });
   }
 }
