@@ -19,21 +19,20 @@ class SettingsPage extends StatelessWidget {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.transparent,
-          title: const Text('Settings'),
           leading: GestureDetector(
             onTap: () {
               Navigator.pop(context);
             },
             child: const Icon(
               Icons.arrow_back,
-              color: Colors.pinkAccent,
+              color: Colors.grey,
             ),
           ),
         ),
         body: SettingsList(
           sections: [
             SettingsSection(
-              title: const Text('General'),
+              title: const Text(''),
               tiles: [
                 SettingsTile(
                   title: const Text('Currency'),

@@ -38,7 +38,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
       vsync: this,
     );
     timer = Timer.periodic(
-        Duration(seconds: 30), (Timer t) => runRandomAnimation());
+        Duration(seconds: 15), (Timer t) => runRandomAnimation());
   }
 
   @override
@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
               Navigator.push(context,
                   MaterialPageRoute(builder: (context) => SettingsPage()));
             },
-            child: const Icon(Icons.settings, color: Colors.pinkAccent)),
+            child: const Icon(Icons.settings, color: Colors.grey)),
       ),
       body: Center(
         child: Column(
@@ -115,14 +115,23 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
                 ]
               ],
             ),
-            Lottie.network(_pigUrl,
-                height: 500,
-                repeat: false,
-                controller: _animationController, onLoaded: (composition) {
-              _animationController
-                ..duration = composition.duration
-                ..forward();
-            }),
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.6,
+              child: OverflowBox(
+                maxHeight: MediaQuery.of(context).size.height * 0.9,
+                child: Lottie.network(_pigUrl,
+                    // height: MediaQuery.of(context).size.height * 0.75,
+                    repeat: false,
+                    controller: _animationController, onLoaded: (composition) {
+                  _animationController
+                    ..duration = composition.duration
+                    ..forward();
+                }),
+              ),
+            ),
+            SizedBox(
+              height: 50,
+            ),
             TextButton(
                 child: const Text('ADD'),
                 style: TextButton.styleFrom(
@@ -167,20 +176,20 @@ class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
     OverlayEntry overlayEntry;
     overlayEntry = OverlayEntry(builder: (context) {
       return Center(
-          child: Lottie.network(
-              'https://assets2.lottiefiles.com/packages/lf20_wwhhicx3.json',
-              height: 500,
-              repeat: false,
-              controller: _moneyAnimationController, onLoaded: (composition) {
-        _moneyAnimationController
-          ..duration = composition.duration
-          ..forward();
-      }));
+          child: SizedBox(
+        height: MediaQuery.of(context).size.height * 1,
+        child: Lottie.network(
+            'https://assets2.lottiefiles.com/packages/lf20_wwhhicx3.json',
+            height: 500,
+            repeat: false,
+            controller: _moneyAnimationController, onLoaded: (composition) {
+          _moneyAnimationController
+            ..duration = composition.duration
+            ..forward();
+        }),
+      ));
     });
-    // animationController!.addListener(() {
-    //   overlayState!.setState(() {});
-    // });
-    // _moneyAnimationController.repeat();
+
     overlayState.setState(() {});
     if (_moneyAnimationController.duration != null) {
       _moneyAnimationController.reset();
