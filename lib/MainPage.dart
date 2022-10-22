@@ -1,14 +1,58 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:provider/provider.dart';
+import 'package:lottie/lottie.dart';
 import 'package:savings_app/MainViewModel.dart';
 
 import 'CustomDialog.dart';
 import 'SettingsPage.dart';
 
-class MainPage extends StatelessWidget {
-  const MainPage({Key? key}) : super(key: key);
+class MainPage extends StatefulWidget {
+  @override
+  _MainPageState createState() => _MainPageState();
+}
+
+class _MainPageState extends State<MainPage> with TickerProviderStateMixin {
+  late AnimationController _animationController;
+  String _pigUrl =
+      'https://assets8.lottiefiles.com/packages/lf20_yvwcdrrw.json';
+
+  final List<String> _randomPigAnimations = [
+    'https://assets3.lottiefiles.com/packages/lf20_u70phlit.json',
+    'https://assets3.lottiefiles.com/packages/lf20_id5yltov.json'
+  ];
+
+  Timer? timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+    );
+    timer = Timer.periodic(
+        Duration(seconds: 30), (Timer t) => runRandomAnimation());
+  }
+
+  @override
+  void dispose() {
+    timer?.cancel();
+    super.dispose();
+  }
+
+  void runRandomAnimation() {
+    if (!_animationController.isAnimating) {
+      setState(() {
+        _pigUrl = (_randomPigAnimations..shuffle()).first;
+      });
+      _animationController.reset();
+
+      _animationController.forward();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +111,14 @@ class MainPage extends StatelessWidget {
                 ]
               ],
             ),
-            const SizedBox(
-              height: 20,
-            ),
+            Lottie.network(_pigUrl,
+                height: 500,
+                repeat: false,
+                controller: _animationController, onLoaded: (composition) {
+              _animationController
+                ..duration = composition.duration
+                ..forward();
+            }),
             TextButton(
                 child: const Text('ADD'),
                 style: TextButton.styleFrom(
@@ -87,6 +136,11 @@ class MainPage extends StatelessWidget {
                           mainViewModel.addSavings(value);
                           mainViewModel.controller.clear();
                           Navigator.pop(context);
+
+                          _pigUrl =
+                              'https://assets8.lottiefiles.com/packages/lf20_yvwcdrrw.json';
+                          _animationController.reset();
+                          _animationController.forward();
                         },
                         title: 'Add Savings',
                         hintText: 'Enter amount',

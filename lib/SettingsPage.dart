@@ -37,7 +37,7 @@ class SettingsPage extends StatelessWidget {
               tiles: [
                 SettingsTile(
                   title: const Text('Currency'),
-                  value: Text('${mainViewModel.currency_code}'),
+                  value: Text('${mainViewModel.currencyCode}'),
                   leading: const Icon(Icons.attach_money),
                   onPressed: (BuildContext context) {
                     showCurrencyPicker(
